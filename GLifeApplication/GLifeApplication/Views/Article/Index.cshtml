@@ -1,0 +1,111 @@
+﻿@model GLifeApplication.ViewModels.ArticleView
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery-ui")
+@Scripts.Render("~/jQuery/Home/ArticleList.js")
+
+
+<style>
+    .content-body {
+        margin: 0 auto;
+        text-align: left;
+        width: 600px;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 14px 20px;
+    }
+
+    .panel-heading > .row > .col-sm-11 img {
+        margin-right: 10px;
+    }
+
+    .panel-body {
+        padding: 0;
+        padding-bottom: 20px;
+    }
+
+        .panel-body > .panel-likes {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 15px;
+            color: black;
+        }
+
+        .panel-body > .panel-content > p{
+            display:inline-block;
+            font-size: 15px;
+            color: black;
+            padding-left:5px;
+        }
+</style>
+<div class="row">
+    <div class="col-sm-2">
+        @Ajax.ActionLink("新增動態", "CreateArticle", "Home",
+                            new AjaxOptions
+                            {
+                                UpdateTargetId = "CreateArticleModal"
+                            ,
+                                InsertionMode = InsertionMode.Replace
+                            },
+                            new
+                            {
+                                @class = "btn btn-default",
+                                @data_toggle = "modal",
+                                @data_target = "#CreateArticleModal"
+                            })
+        <div class="modal fade" id="CreateArticleModal" tabindex="-1" role="dialog"
+             aria-labelledby="CreateArticleModal" aria-hidden="true">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content-body">
+        <div class="panel-group">
+            @foreach (var item in Model.ArticleList)
+            {
+                DateTime createDate = item.CreateDate;
+                var differenceHour = Math.Floor((DateTime.Now - item.CreateDate).TotalHours);
+                String Hour = differenceHour.ToString() + "H";
+
+                var differenceMinute = Math.Floor((DateTime.Now - item.CreateDate).TotalMinutes);
+                String Minute = differenceMinute.ToString() + "m";
+
+                <div class="panel panel-default panel-control" style="margin-bottom: 50px;">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <img src="https://placehold.it/600x600?text=ID" class="img-circle" alt="Cinque Terre" width="30" height="30">
+                                @item.Username
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="text-right" style="display:inline-block; text-align:right">
+                                    @if (differenceHour < 1)
+                                        {
+                                            @Minute
+                                        }
+                                        else
+                                        {
+                                            @Hour
+                                        }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <img src="https://placehold.it/600x600?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                        <div class="panel-likes">@item.Watch Likes</div>
+                        <div class="panel-content">
+                            <strong>@item.Username </strong>
+                            <p>@item.Content</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

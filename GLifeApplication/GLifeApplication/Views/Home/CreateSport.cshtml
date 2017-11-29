@@ -1,0 +1,60 @@
+﻿@model GLifeApplication.Models.SportRecord
+
+<style>
+    ul.ui-autocomplete {
+        z-index: 1100;
+    }
+</style>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript:window.location.reload()">&times;</button>
+            <h3 class="modal-title">新增運動記錄</h3>
+            <h3 class="modal-title">@ViewBag.date</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SportName, new
+               {
+                   @class = "col-xs-2 form-label"
+               })
+                    <div class="col-xs-7">
+                        @Html.TextBoxFor(model => model.SportName, new { @class = "form-control", @id = "txtSportName", @name = "SportName" })
+                        @Html.TextBoxFor(model => model.Sport_Id, new { @class = "form-control", @id = "hfSportId", @name = "SportId", @Type = "hidden" })
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-danger" type="button" id="search-button">Search</button>
+                    </div>
+                </div>
+                <div class="well well-DB">
+                    @Html.Action("SportDB")
+                </div>
+
+                <div class="well well-DBdetail" style="display: none;">
+                    @Html.Action("SportDBDetail")
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+        //autocomplete used jquery with ajax
+        $('#search-button').click(function () {
+            var search = $('#txtSportName').val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/SportDB",
+                data: "search=" + search,
+                success: function (data) {
+                    $('.table-DB').html(data);
+                }
+            });
+        });
+   
+</script>

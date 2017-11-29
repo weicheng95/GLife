@@ -1,0 +1,23 @@
+﻿@model GLifeApplication.ViewModels.FoodDatabaseView
+
+
+@*test only 
+    this must be remove!!!!!!!!!!!!*@
+
+
+<table class="table table-DB">
+    <tr>
+        <th>食物</th>
+        <th>熱量</th>
+    </tr>
+
+@foreach (var item in Model.FoodDatabaseList.Take(15)) {
+    
+    <tr class="box">
+        <td class="text-left">
+            <a href="#" class="active foodname" id="foodname" value="@item.Food_Id">@item.FoodName</a>
+        </td>
+        <td>@item.Calories</td>
+    </tr>
+}
+</table>

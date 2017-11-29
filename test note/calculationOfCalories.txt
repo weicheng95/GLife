@@ -1,0 +1,32 @@
+//find total calories from datase, if can't find data then add new data into it.
+            var caloriesQuery = from p in db.TotalCaloriesResult
+                                where (DbFunctions.TruncateTime(p.CreateDate) == convertDatetime)
+                                select p;
+
+ /*
+            //do until here 2017/05/13
+            
+            
+
+            //find total calories from datase, if can't find data then add new data into it.
+            var caloriesQuery = from p in db.TotalCaloriesResult
+                                where (DbFunctions.TruncateTime(p.CreateDate) == convertDatetime)
+                                select p;
+
+            //update total calories if database table already contain the data
+            if (caloriesQuery.Count()>0)
+            {
+                TotalCaloriesResult totalCaloriesResult = caloriesQuery.Single();
+                totalCaloriesResult.TotalCalories = sum;
+            }
+            //add new data into database table if no value available
+            else
+            {
+                TotalCaloriesResult totalCaloriesResult = new TotalCaloriesResult();
+                totalCaloriesResult.Username = newRecord.Username;
+                totalCaloriesResult.CreateDate = newRecord.CreateDate;
+                totalCaloriesResult.TotalCalories = sum;
+
+                db.TotalCaloriesResult.Add(totalCaloriesResult);
+            }
+            */

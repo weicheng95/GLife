@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GLifeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Account1" />
+    </Key>
+    <Property Name="Account1" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Height" Type="Int32" Nullable="false" />
+    <Property Name="Weight" Type="Int32" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Age" Type="Int32" Nullable="false" />
+    <Property Name="Target" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Record" Relationship="Self.FK_Record_Account1" FromRole="Account" ToRole="Record" />
+    <NavigationProperty Name="TotalCaloriesResult" Relationship="Self.FK_TotalCaloriesResult_Account1" FromRole="Account" ToRole="TotalCaloriesResult" />
+  </EntityType>
+  <EntityType Name="Barcode">
+    <Key>
+      <PropertyRef Name="ProductName" />
+    </Key>
+    <Property Name="ProductName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Barcode1" Type="Int32" Nullable="false" />
+    <Property Name="Calories" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Record" Relationship="Self.FK_Record_Barcode" FromRole="Barcode" ToRole="Record" />
+  </EntityType>
+  <EntityType Name="Record">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Account" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Calories" Type="Int32" Nullable="false" />
+    <Property Name="ProductName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Account1" Relationship="Self.FK_Record_Account1" FromRole="Record" ToRole="Account" />
+    <NavigationProperty Name="Barcode" Relationship="Self.FK_Record_Barcode" FromRole="Record" ToRole="Barcode" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TotalCaloriesResult">
+    <Key>
+      <PropertyRef Name="TotalCalories" />
+      <PropertyRef Name="CreateDate" />
+      <PropertyRef Name="Account" />
+    </Key>
+    <Property Name="TotalCalories" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Account" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Account1" Relationship="Self.FK_TotalCaloriesResult_Account1" FromRole="TotalCaloriesResult" ToRole="Account" />
+  </EntityType>
+  <Association Name="FK_Record_Account1">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Account1" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="Account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalCaloriesResult_Account1">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="TotalCaloriesResult" Type="Self.TotalCaloriesResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Account1" />
+      </Principal>
+      <Dependent Role="TotalCaloriesResult">
+        <PropertyRef Name="Account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Record_Barcode">
+    <End Role="Barcode" Type="Self.Barcode" Multiplicity="1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Barcode">
+        <PropertyRef Name="ProductName" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="ProductName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GLifeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Account" EntityType="Self.Account" />
+    <EntitySet Name="Barcode" EntityType="Self.Barcode" />
+    <EntitySet Name="Record" EntityType="Self.Record" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TotalCaloriesResult" EntityType="Self.TotalCaloriesResult" />
+    <AssociationSet Name="FK_Record_Account1" Association="Self.FK_Record_Account1">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Record" EntitySet="Record" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalCaloriesResult_Account1" Association="Self.FK_TotalCaloriesResult_Account1">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="TotalCaloriesResult" EntitySet="TotalCaloriesResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Record_Barcode" Association="Self.FK_Record_Barcode">
+      <End Role="Barcode" EntitySet="Barcode" />
+      <End Role="Record" EntitySet="Record" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

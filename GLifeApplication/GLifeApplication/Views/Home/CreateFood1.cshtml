@@ -1,0 +1,149 @@
+﻿@model GLifeApplication.Models.FoodRecord
+
+<style>
+    ul.ui-autocomplete {
+        z-index: 1100;
+    }
+</style>
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">新增食物記錄</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @using (Ajax.BeginForm("AddFood", "Home",
+new AjaxOptions
+{
+    HttpMethod = "POST"
+,
+    OnSuccess = "onRecordModalCreateSuccess"
+}, new { }))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Username, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @User.Identity.Name
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CreateDate, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control", @id = "DatepickerForCreate" })
+                            @Html.ValidationMessageFor(model => model.CreateDate, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FoodName, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.FoodName, new { @class = "form-control", @id = "txtFoodName", @name = "FoodName" })
+                            @Html.TextBoxFor(model => model.Food_Id, new { @class = "form-control", @id = "hfFoodId", @name = "FoodId", @Type = "hidden" })
+                            @Html.ValidationMessageFor(model => model.FoodName, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FoodAmount, new
+                       {
+                           @class = "col-xs-4 form-label"
+                       })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.FoodAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FoodAmount, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FoodType, new
+                       {
+                           @class = "col-xs-4 form-label"
+                       })
+                        <div class="col-xs-8">
+                            @Html.DropDownList("foodtype", new List<SelectListItem>
+                       {
+                           new SelectListItem{ Text="早餐", Value="早餐", Selected=true},
+                           new SelectListItem{ Text="午餐", Value="午餐"},
+                           new SelectListItem{ Text="晚餐", Value="晚餐"}
+                       },"select food type", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.FoodName, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.FoodName, new { @class = "form-control", @id = "txtFoodName", @name = "FoodName" })
+                            <input type="hidden" id="hfFoodName" name="FoodId" />
+                            @Html.ValidationMessageFor(model => model.FoodName, null, new { @class = "label label-danger" })
+                        </div>*@
+                    </div>
+                }
+
+            </div>
+        </div>
+
+       <div class="modal-footer">
+            <input class="btn btn-primary" id="CreateFoodBtn" type="Button" value="新增食物" />
+            <input class="btn btn-default" data-dismiss="modal" type="button" value="cancel" />
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //show da
+    $('#DatepickerForCreate').datepicker({
+        zIndexOffset: 1040
+    });
+
+    //autocomplete used jquery with ajax
+    $("#txtFoodName").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '/Home/AutoCompleteForFood/',
+                data: "{ 'prefix': '" + request.term + "'}",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return item;
+                    }))
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        },
+
+        select: function (e, i) {
+            $("#hfFoodId").val(i.item.val);
+        },
+
+        minLength: 1
+    });
+</script>
+
+
+

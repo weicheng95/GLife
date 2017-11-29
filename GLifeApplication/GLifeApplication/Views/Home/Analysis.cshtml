@@ -1,0 +1,155 @@
+﻿@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery-ui")
+
+@model GLifeApplication.ViewModels.AnalysisView
+
+
+@{
+    int totalCount = 0;
+    int totalCalories = 0;
+    int totalCaloriesResult = 0;
+    int breakfastCalories = 0;
+    int lunchCalories = 0;
+    int dinnerCalories = 0;
+
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<div class="row">
+    <div class="col-md-1 col-md-offset-2" style="margin-top:22px;">
+        <div class="form-group">
+
+            <select class="form-control" id="selectday">
+                <option>天數</option>
+                <option value="7">7天</option>
+                <option value="14">14天</option>
+                <option value="30">1個月</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1 class="text-center">@Model.day 天</h1>
+    </div>
+</div>
+<div class="container" style="padding-bottom: 50px;">
+    @Html.Action("CaloriesGraph")
+</div>
+
+<div class="container">
+
+    @*食物統計*@
+    <div class="col-md-6">
+        <h2 class="text-center">食物統計</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Foods</th>
+                    <th>count</th>
+                    <th>Cals</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model.FoodView.OrderByDescending(p => p.Count))
+                {
+                    <tr>
+                        <td>@item.FoodName</td>
+                        <td>@item.Count</td>
+                        <td>@item.Calories</td>
+                    </tr>
+                    totalCalories = totalCalories + item.Calories;
+                    totalCount = totalCount + item.Count;
+                }
+
+                <tr>
+                    <td>TOTAL</td>
+                    <td>@totalCount</td>
+                    <td>@totalCalories</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    
+    @*食物比例*@
+    <div class="col-md-6">
+        <h2 class="text-center">早午晚餐比例統計</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>食物</th>
+                    <th>比例</th>
+                    <th>Cals</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @foreach (var item in Model.FoodResultView)
+                {
+                    breakfastCalories = breakfastCalories + item.breakfastCalories;
+                    lunchCalories = lunchCalories + item.lunchCalories;
+                    dinnerCalories = dinnerCalories + item.dinnerCalories;
+                }
+
+                @{
+                    totalCaloriesResult = breakfastCalories + lunchCalories + dinnerCalories;
+
+                }
+
+
+                <tr>
+                    <td>早餐</td>
+                    @if (totalCaloriesResult != 0)
+                    {
+                        <td>@(breakfastCalories * 100 / totalCaloriesResult)%</td>
+                    }
+                    <td>@breakfastCalories</td>
+
+                </tr>
+                <tr>
+                    <td>午餐</td>
+                    @if (totalCaloriesResult != 0)
+                    {
+                        <td>@(lunchCalories * 100 / totalCaloriesResult)%</td>
+                    }
+                   
+                    <td>@lunchCalories</td>
+                </tr>
+                <tr>
+                    <td>晚餐</td>
+                    @if (totalCaloriesResult != 0)
+                    {
+                        <td>@(dinnerCalories * 100 / totalCaloriesResult)%</td>
+                    }
+                   
+                    <td>@dinnerCalories</td>
+                </tr>
+                <tr>
+                    <td>總和</td>
+                    <td>-</td>
+                    <td>@totalCaloriesResult</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#selectday').change(function (event) {
+            event.preventDefault();
+            var day = $(this).find(':selected').val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/Analysis",
+                data: "days=" + day,
+                success: function (data) {
+                    $('body').html(data);
+                }
+            });
+        });
+    });
+</script>

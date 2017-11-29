@@ -1,0 +1,197 @@
+﻿@model GLifeApplication.ViewModels.FoodRecordView
+
+@{ String previousDate = Model.Date.CurrentDate.AddDays(-1).ToString("yyyy/MM/dd");
+    String nextDate = Model.Date.CurrentDate.AddDays(1).ToString("yyyy/MM/dd");}
+
+
+
+<div id="list-container">
+    <div class="row">
+        <div class="col-md-4">
+            @Ajax.ActionLink("<", "List", new { Date = previousDate },
+                               new AjaxOptions
+                               {
+                                   UpdateTargetId = "list-container",
+                                   InsertionMode = InsertionMode.Replace,
+                                   HttpMethod = "GET"
+                               })
+        </div>
+        <div class="col-md-3">
+            <a href="#" id="pickDate" class="@Model.Date.CurrentDate.ToString("MMdd")">@Model.Date.CurrentDate.ToShortDateString()</a>
+        </div>
+        <div class="col-md-4">
+            @Ajax.ActionLink(">", "List", new { Date = nextDate },
+                               new AjaxOptions
+                               {
+                                   UpdateTargetId = "list-container",
+                                   InsertionMode = InsertionMode.Replace,
+                                   HttpMethod = "GET"
+                               })
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-5 row-showCalories">
+            <div class="row ">
+                <h2>需要的热量</h2>
+            </div>
+            <div class="row">
+                <h3>3000</h3>
+            </div>
+        </div>
+        <div class="col-md-5 row-showCalories">
+            <div class="row">
+                <h2>今日共摄取热量</h2>
+            </div>
+            <div class="row">
+
+                @if (Model.FoodRecordList.Count() > 0)
+                {
+                    <h3>@Model.TotalCaloriesList.First().TotalCalories</h3>
+                }
+                else
+                {
+                    <h3>0</h3>
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="3">早餐</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.FoodRecordList.Count() > 0)
+                    {
+                        foreach (var item in Model.FoodRecordList)
+                        {
+                    <tr>
+                        <td>
+                            @item.FoodName
+                        </td>
+                        <td>
+                            @item.Calories
+                        </td>
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td>
+                            no content inside database!!
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>午餐</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.FoodRecordList.Count() > 0)
+                    {
+                        foreach (var item in Model.FoodRecordList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FoodName
+                                </td>
+                                <td>
+                                    @item.Calories
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                no content inside database!!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>晚餐</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.FoodRecordList.Count() > 0)
+                    {
+                        foreach (var item in Model.FoodRecordList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FoodName
+                                </td>
+                                <td>
+                                    @item.Calories
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                no content inside database!!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>運動</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.FoodRecordList.Count() > 0)
+                    {
+                        foreach (var item in Model.FoodRecordList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FoodName
+                                </td>
+                                <td>
+                                    @item.Calories
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                no content inside database!!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+       
+    </div>
+</div>

@@ -1,0 +1,183 @@
+﻿@model GLifeApplication.Models.Account
+
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "辦公室坐整天型",
+        Value = "1.2",
+        Selected = true
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "輕度活動型（每週運動1-3次）",
+        Value = "1.375"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "中度運動型（每週運動3到5次）",
+        Value = "1.55"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "重度運動型（每週運動6-7次）",
+        Value = "1.725"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "體力勞動型（每天重度運動或重勞力工作者）",
+        Value = "1.9"
+    });
+
+    List<SelectListItem> listItemW = new List<SelectListItem>();
+    listItemW.Add(new SelectListItem
+    {
+        Text = "每星期減重1公斤",
+        Value = "1",
+        Selected = true
+    });
+    listItemW.Add(new SelectListItem
+    {
+        Text = "每星期減重0.7公斤",
+        Value = "0.7"
+    });
+    listItemW.Add(new SelectListItem
+    {
+        Text = "每星期減重0.5公斤",
+        Value = "0.5"
+    });
+    listItemW.Add(new SelectListItem
+    {
+        Text = "每星期減重0.2公斤",
+        Value = "0.2"
+    });
+    listItemW.Add(new SelectListItem
+    {
+        Text = "維持目前體重",
+        Value = "0"
+    });
+
+    List<SelectListItem> listItemsGender = new List<SelectListItem>();
+    listItemsGender.Add(new SelectListItem
+    {
+        Text = "男",
+        Value = "男",
+        Selected = true
+    });
+    listItemsGender.Add(new SelectListItem
+    {
+        Text = "女",
+        Value = "女",
+    });
+}
+
+
+<div class="container container-setting" style="padding-top:50px;">
+    <div class="col-md-7">
+        <div class="form-horizontal">
+            @using (Html.BeginForm("Setting", "Member", FormMethod.Post))
+            {
+                
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, new
+               {
+                   @class = "col-xs-4 form-label"
+               })
+                    <div class="col-xs-8">
+                        @Model.Username
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Age, new
+               {
+                   @class = "col-xs-4 form-label"
+               })
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(model => model.Age, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Age, null, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new
+               {
+                   @class = "col-xs-4 form-label"
+               })
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Height, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(model => model.Height, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Height, null, new { @class = "label label-danger" })
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Weight, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Weight, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Gender, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.DropDownListFor(model => model.Gender, listItemsGender, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    @*
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.WeightToLossPerWeek,
+            new { @class = "col-xs-4 form-label" })
+                         <div class="col-xs-8">
+                             @Html.DropDownListFor(model => model.WeightToLossPerWeek, listItemW, new { @class = "form-control" })
+                         </div>
+                     </div>
+                    *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Activity,
+           new { @class = "col-xs-4 form-label" })
+                        <div class="col-xs-8">
+                            @Html.DropDownListFor(model => model.Activity, listItems, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CaloriesRequired,
+           new { @class = "col-xs-4 form-label" })
+                        <div class="col-xs-8">
+                            @Html.DisplayFor(model => model.CaloriesRequired,
+               new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CaloriesRequired, null,
+               new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-6 col-md-6">
+                            <input class="btn btn-primary" type="submit" value="儲存" />
+                        </div>
+                    </div>
+            }
+        </div>
+
+    </div>
+</div>

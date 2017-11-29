@@ -1,0 +1,505 @@
+﻿@model GLifeApplication.ViewModels.RecordView
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery-ui")
+@Scripts.Render("~/jQuery/Home/RecordList.js")
+@Scripts.Render("~/jQuery/Home/Record.js")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+@{
+    String previousDate = Model.Date.CurrentDate.AddDays(-1).ToString("yyyy/MM/dd");
+    String nextDate = Model.Date.CurrentDate.AddDays(1).ToString("yyyy/MM/dd");
+}
+
+@*css style *@
+<style>
+    .container-fluid {
+        padding-top: 30px;
+    }
+
+    .calories_result {
+        color: lightseagreen;
+    }
+
+    h6 {
+        color: slategrey;
+    }
+
+    .thumbnail {
+        padding: 0 0 15px 0;
+        border: none;
+        border-radius: 0;
+    }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            margin-bottom: 5px;
+        }
+
+    .history .col-md-3 {
+        padding: 10px;
+    }
+
+    .content {
+        position: relative;
+        display: inline-block;
+    }
+
+        .content:hover .btn-edit{
+            opacity: 1;
+        }
+
+        .content:hover .btn-delete {
+            opacity: 1;
+        }
+
+    .btn-delete {
+        transition: .35s ease;
+    }
+    .btn-delete:hover {
+        color:black;           
+    }
+
+    .btn-edit {
+        position: absolute;
+        top: 0;
+        right: 30px;
+        opacity: 0;
+        transition: opacity .35s ease;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+        text-align: center;
+        border: solid 2px white;
+    }
+</style>
+
+
+<div class="container-fluid text-center bg-grey " id="container-all">
+    <div class="row">
+        <div class="col-sm-4  well">
+            @*show calories required, calories spent, calories left*@
+            <div class="well  text-center ">
+                <div class="row row-showCalories">
+                    <div class="col-xs-2 text-center">
+                        <div class="row">
+                            <h3>@ViewBag.CaloriesRequired</h3>
+                        </div>
+                        <div class="row ">
+                            <h6>基本热量</h6>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 text-center">
+                        <div class="row ">
+                            <h2>-</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <div class="row">
+                            @if (Model.FoodRecordList.Count() > 0)
+                            {
+                                int? foodCalories = Model.TotalCaloriesList.First().BreakfastCalories + Model.TotalCaloriesList.First().LunchCalories + Model.TotalCaloriesList.First().DinnerCalories + Model.TotalCaloriesList.First().OthersCalories;
+                            <h3>@foodCalories</h3>
+                            }
+                            else
+                            {
+                            <h3>0</h3>
+                            }
+                        </div>
+                        <div class="row">
+                            <h6>食物热量</h6>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 text-center">
+                        <div class="row ">
+                            <h2>+</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <div class="row">
+                            @if (Model.FoodRecordList.Count() > 0)
+                            {
+                                //<h3>@Model.TotalCaloriesList.First().TotalFoodCalories</h3>
+                            <h3>@Model.TotalCaloriesList.First().SportCalories</h3>
+                            }
+                            else
+                            {
+                            <h3>0</h3>
+                            }
+                        </div>
+                        <div class="row">
+                            <h6>運動热量</h6>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 text-center">
+                        <div class="row ">
+                            <h2>=</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 calories_result">
+                        <div class="row">
+                            @if (Model.FoodRecordList.Count() > 0)
+                            {
+                                int? finalCalories = Convert.ToInt32(ViewBag.CaloriesRequired - Model.TotalCaloriesList.First().CaloriesResult);
+                            <h3>@finalCalories</h3>
+                            }
+                            else
+                            {
+                            <h3>0</h3>
+                            }
+                        </div>
+                        <div class="row">
+                            <h6>剩餘热量</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="well text-center">
+                <div class="row date-button">
+                    @*previous date and next date button*@
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" value=@previousDate id="previous-date"><<</button>
+                    </div>
+                    <div class="col-md-4">
+                        <a role="button" href="#" id="pickDate" class="btn btn-success @Model.Date.CurrentDate.ToString("MMdd")">@Model.Date.CurrentDate.ToShortDateString()</a>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" value=@nextDate id="next-date">>></button>
+                    </div>
+                </div>
+            </div>
+            <div class="well text-center">
+                <div class="row">
+                    <div class=" col-sm-12" id="calender" style="padding-left: 70px;"></div>
+                </div>
+            </div>
+            <div class="well text-center">
+                @Html.Action("CaloriesGraph")
+            </div>
+        </div>
+
+        @*button for create new record*@
+        <div class="col-sm-8">
+            <div class="row text-center row-button">
+                @*create new food record*@
+                <div class="col-sm-2">
+                    @Ajax.ActionLink("新增食物", "CreateFood", "Home",
+                            new AjaxOptions
+                            {
+                                UpdateTargetId = "CreateFoodRecordModal"
+                            ,
+                                InsertionMode = InsertionMode.Replace
+                            },
+                            new
+                            {
+                                @class = "btn btn-default",
+                                @data_toggle = "modal",
+                                @data_target = "#CreateFoodRecordModal",
+
+                            })
+                    <div class="modal fade" id="CreateFoodRecordModal" tabindex="-1" role="dialog"
+                         aria-labelledby="CreateFoodRecordModal" aria-hidden="true">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    @Ajax.ActionLink("新增運動", "CreateSport", "Home",
+                            new AjaxOptions
+                            {
+                                UpdateTargetId = "CreateSportRecordModal"
+                            ,
+                                InsertionMode = InsertionMode.Replace
+                            },
+                            new
+                            {
+                                @class = "btn btn-default",
+                                @data_toggle = "modal",
+                                @data_target = "#CreateSportRecordModal"
+                            })
+                    <div class="modal fade" id="CreateSportRecordModal" tabindex="-1" role="dialog"
+                         aria-labelledby="CreateSportRecordModal" aria-hidden="true">
+                    </div>
+                </div>
+            @*    <div class="col-sm-2">
+                        <button type="button" class="btn btn-default">新增筆記</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-default">修改</button>
+                    </div>
+            *@
+            </div>
+               
+            @**show food and sport record history*@
+            @*
+                <div class="row text-center row-showRecord">
+                    <div id="history" class="container-fluid text-center">
+                        <div class="row">
+                            <h3 class="text-left" style="padding-left:15px;">早餐</h3>
+
+                            @if (Model.FoodRecordList.Where(p => p.FoodType == "早餐").Count() > 0)
+                            {
+                                foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("早餐")))
+                                {
+                                    <div class="col-md-3">
+                                        <div class="thumbnail">
+                                            <div class="content">
+                                         
+                                                <img class="img-responsive " src="http://placehold.it/200x200" alt="">
+                                                <a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+                                           
+                                              </div>
+                                            <div id="loading"></div>
+                                            <p>@item.FoodName</p>
+                                            <p>@item.Calories</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>無記錄</p>
+                            }
+                        </div>
+                        <div class="row">
+                            <h3 class="text-left" style="padding-left:15px;">午餐</h3>
+                            @if (Model.FoodRecordList.Where(p => p.FoodType == "午餐").Count() > 0)
+                            {
+                                foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("午餐")))
+                                {
+                                    <div class="col-md-3">
+                                        <div class="thumbnail">
+                                            <div class="content">
+
+                                                <img class="img-responsive " src="http://placehold.it/200x200" alt="">
+                                                <a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+
+                                            </div>
+                                            <div id="loading"></div>
+                                            <p>@item.FoodName</p>
+                                            <p>@item.Calories</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>無記錄</p>
+                            }
+                        </div>
+                        <div class="row">
+                            <h3 class="text-left" style="padding-left:15px;">晚餐</h3>
+                            @if (Model.FoodRecordList.Where(p => p.FoodType == "晚餐").Count() > 0)
+                            {
+                                foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("晚餐")))
+                                {
+                                    <div class="col-md-3">
+                                        <div class="thumbnail">
+                                            <div class="content">
+
+                                                <img class="img-responsive " src="http://placehold.it/200x200" alt="">
+                                                <a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+
+                                            </div>
+                                            <div id="loading"></div>
+                                            <p>@item.FoodName</p>
+                                            <p>@item.Calories</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>無記錄</p>
+                            }
+                        </div>
+                        <div class="row">
+                            <h3 class="text-left" style="padding-left:15px;">運動</h3>
+                            @if (Model.SportRecordList.Count() > 0)
+                            {
+                                foreach (var item in Model.SportRecordList)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="thumbnail">
+                                            <div class="content">
+
+                                                <img class="img-responsive " src="http://placehold.it/200x200" alt="">
+                                                <a href="@Url.Action("DeleteSport","Home",new { Id = item.SportRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+
+                                            </div>
+                                            <div id="loading"></div>
+                                            <p>@item.SportName</p>
+                                            <p>@item.BurnCalories</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>無記錄</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            *@
+
+            <table class="table table-hover show-recordtable">
+                <thead>
+                    <tr>
+                        <th>名稱</th>
+                        <th>熱量</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="bf-col"><td colspan="3">早餐</td></tr>
+                    
+                       @if (Model.FoodRecordList.Where(p => p.FoodType == "早餐").Count() > 0)
+                       {
+                           foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("早餐")))
+                           {
+                               //<a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+                            <tr>
+                                <td>@item.FoodName</td>
+                                <td>@(item.Calories*item.FoodAmount)</td>
+                                <td width="10px"><a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
+                            </tr>
+                           }
+                       }
+                       else
+                       {
+                           <tr><td colspan="3">無記錄</td></tr>
+                        
+                       }
+                    
+                    <tr id="lh-col"><td colspan="3">午餐</td></tr>
+                    
+                        @if (Model.FoodRecordList.Where(p => p.FoodType == "午餐").Count() > 0)
+                        {
+                            foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("午餐")))
+                            {
+                                //<a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+                                <tr>
+                                    <td>@item.FoodName</td>
+                                    <td>@(item.Calories * item.FoodAmount)</td>
+                                    <td width="10px"><a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">無記錄</td>
+                            </tr>
+                            
+                        }
+                   
+                    <tr id="dn-col"><td colspan="3">晚餐</td></tr>
+                    
+                        @if (Model.FoodRecordList.Where(p => p.FoodType == "晚餐").Count() > 0)
+                        {
+                            foreach (var item in Model.FoodRecordList.Where(p => p.FoodType.Equals("晚餐")))
+                            {
+                                //<a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+                                <tr>
+                                    <td>@item.FoodName</td>
+                                    <td>@(item.Calories * item.FoodAmount)</td>
+                                    <td width="10px"><a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">無記錄</td>
+                            </tr>
+                            
+                        }
+                    
+                    <tr id="sp-col"><td colspan="3">運動</td></tr>
+                    
+                        @if (Model.SportRecordList.Count() > 0)
+                        {
+                            foreach (var item in Model.SportRecordList)
+                            {
+                                //<a href="@Url.Action("DeleteFood","Home",new { Id = item.FoodRecord_Id })" class="btn btn-default btn-delete btn-circle"><i class="glyphicon glyphicon-remove"></i></a>
+                                <tr>
+                                    <td>@item.SportName</td>
+                                    <td>@(item.BurnCalories)</td>
+                                    <td width="10px"><a href="@Url.Action("DeleteSport","Home",new { Id = item.SportRecord_Id })" class="btn-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">無記錄</td>
+                            </tr>
+                        }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@*script for calender *@
+<script>
+    $('#calender').datepicker({
+        altFormat: "yy/mm/dd",
+        dateFormat: "yy/mm/dd",
+        onSelect: function (date) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/Record",
+                data: "Date=" + date,
+                dataType: "html",
+                contentType: 'application/html; charset=utf-8',
+                success: function (data) {
+                    $('body').html(data);
+                },
+                error: function () {
+                    alert("Error occured!!")
+                }
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        $('#previous-date').click(function (event) {
+            event.preventDefault();
+            var date = $('#previous-date').val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/Record",
+                data: "Date=" + date,
+                success: function (data) {
+                    $('body').html(data);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('#next-date').click(function (event) {
+            event.preventDefault();
+            var date = $('#next-date').val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/Record",
+                data: "Date=" + date,
+                success: function (data) {
+                    $('body').html(data);
+                }
+            });
+        });
+    });
+
+
+</script>

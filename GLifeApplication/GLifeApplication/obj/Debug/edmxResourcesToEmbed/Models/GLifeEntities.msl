@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GLifeModelStoreContainer" CdmEntityContainer="GLifeEntities">
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="GLifeModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="GLifeModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="GLifeModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="GLifeModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GLifeModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="GLifeModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GLifeModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="GLifeModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="GLifeModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="TotalCaloriesCal" FunctionName="GLifeModel.Store.TotalCaloriesCal" />
+    <EntitySetMapping Name="Account">
+      <EntityTypeMapping TypeName="GLifeModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="CaloriesRequired" ColumnName="CaloriesRequired" />
+          <ScalarProperty Name="Activity" ColumnName="Activity" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="WeightToLossPerWeek" ColumnName="WeightToLossPerWeek" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Height" ColumnName="Height" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Article">
+      <EntityTypeMapping TypeName="GLifeModel.Article">
+        <MappingFragment StoreEntitySet="Article">
+          <ScalarProperty Name="Watch" ColumnName="Watch" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Article_Id" ColumnName="Article_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodDatabase">
+      <EntityTypeMapping TypeName="GLifeModel.FoodDatabase">
+        <MappingFragment StoreEntitySet="FoodDatabase">
+          <ScalarProperty Name="FoodType" ColumnName="FoodType" />
+          <ScalarProperty Name="Food_Id" ColumnName="Food_Id" />
+          <ScalarProperty Name="Calories" ColumnName="Calories" />
+          <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodRecord">
+      <EntityTypeMapping TypeName="GLifeModel.FoodRecord">
+        <MappingFragment StoreEntitySet="FoodRecord">
+          <ScalarProperty Name="FoodGroup" ColumnName="FoodGroup" />
+          <ScalarProperty Name="FoodType" ColumnName="FoodType" />
+          <ScalarProperty Name="Food_Id" ColumnName="Food_Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FoodAmount" ColumnName="FoodAmount" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+          <ScalarProperty Name="Calories" ColumnName="Calories" />
+          <ScalarProperty Name="FoodRecord_Id" ColumnName="FoodRecord_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SportDatabase">
+      <EntityTypeMapping TypeName="GLifeModel.SportDatabase">
+        <MappingFragment StoreEntitySet="SportDatabase">
+          <ScalarProperty Name="SportName" ColumnName="SportName" />
+          <ScalarProperty Name="Calories" ColumnName="Calories" />
+          <ScalarProperty Name="Sport_Id" ColumnName="Sport_Id" />
+          <ScalarProperty Name="SportType" ColumnName="SportType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SportRecord">
+      <EntityTypeMapping TypeName="GLifeModel.SportRecord">
+        <MappingFragment StoreEntitySet="SportRecord">
+          <ScalarProperty Name="Sport_Id" ColumnName="Sport_Id" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="BurnCalories" ColumnName="BurnCalories" />
+          <ScalarProperty Name="SportTime" ColumnName="SportTime" />
+          <ScalarProperty Name="SportName" ColumnName="SportName" />
+          <ScalarProperty Name="SportRecord_Id" ColumnName="SportRecord_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="GLifeModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="test">
+      <EntityTypeMapping TypeName="GLifeModel.test">
+        <MappingFragment StoreEntitySet="test">
+          <ScalarProperty Name="總碳水化合物_成分值_g_" ColumnName="總碳水化合物-成分值(g)" />
+          <ScalarProperty Name="飽和脂肪_成分值_g_" ColumnName="飽和脂肪-成分值(g)" />
+          <ScalarProperty Name="粗脂肪_成分值_g_" ColumnName="粗脂肪-成分值(g)" />
+          <ScalarProperty Name="粗蛋白_成分值_g_" ColumnName="粗蛋白-成分值(g)" />
+          <ScalarProperty Name="水分_成分值_g_" ColumnName="水分-成分值(g)" />
+          <ScalarProperty Name="Calories" ColumnName="Calories" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+          <ScalarProperty Name="食品分類" ColumnName="食品分類" />
+          <ScalarProperty Name="Food_Id" ColumnName="Food_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TotalCaloriesResult">
+      <EntityTypeMapping TypeName="GLifeModel.TotalCaloriesResult">
+        <MappingFragment StoreEntitySet="TotalCaloriesResult">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CaloriesResult" ColumnName="CaloriesResult" />
+          <ScalarProperty Name="SportCalories" ColumnName="SportCalories" />
+          <ScalarProperty Name="OthersCalories" ColumnName="OthersCalories" />
+          <ScalarProperty Name="DinnerCalories" ColumnName="DinnerCalories" />
+          <ScalarProperty Name="LunchCalories" ColumnName="LunchCalories" />
+          <ScalarProperty Name="BreakfastCalories" ColumnName="BreakfastCalories" />
+          <ScalarProperty Name="Calories_Id" ColumnName="Calories_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,89 @@
+﻿@model GLifeApplication.Models.SportRecord
+
+<style>
+    ul.ui-autocomplete {
+        z-index: 1100;
+    }
+</style>
+
+<div class="SportDB-detail">
+
+
+    @using (Ajax.BeginForm("AddSport", "Home",
+                                                        new AjaxOptions
+                                                        {
+                                                            HttpMethod = "POST"
+                                                        ,
+                                                            OnSuccess = "onRecordModalCreateSuccess"
+                                                        }, new { }))
+    {
+        <div class="form-group">
+            <div class="col-xs-8">
+                @Html.DisplayTextFor(model => model.SportName)
+            @Html.TextBoxFor(model => model.Sport_Id, new { @class = "form-control", @Type = "hidden" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-8">
+                @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control", @Type = "hidden" })
+            </div>
+        </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SportTime, new
+   {
+       @class = "col-xs-4 form-label"
+   })
+        <div class="col-xs-2">
+            @Html.TextBoxFor(model => model.SportTime, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SportTime, null, new { @class = "label label-danger" })
+        </div>
+    </div>
+    <input class="btn btn-primary" id="CreateSportBtn" type="Button" value="新增運動" />
+        <input class="btn btn-default" data-dismiss="modal" type="button" value="cancel" />
+
+    }
+</div>
+
+<script type="text/javascript">
+
+    //show da
+    $('#DatepickerForCreate').datepicker({
+        zIndexOffset: 1040
+    });
+
+    //autocomplete used jquery with ajax
+    $("#txtSportName").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '/Home/AutoCompleteForSport/',
+                data: "{ 'prefix': '" + request.term + "'}",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return item;
+                    }))
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        },
+
+        select: function (e, i) {
+            $("#hfSportId").val(i.item.val);
+        },
+
+        minLength: 1
+    });
+</script>
+
+
+

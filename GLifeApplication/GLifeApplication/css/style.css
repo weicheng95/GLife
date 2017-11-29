@@ -1,0 +1,42 @@
+﻿body {
+    font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+}
+.bg-grey {
+    background-color: #f6f6f6;
+}
+.show-recordtable {
+    margin-top: 50px;
+    border: solid #ccc 1px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-collapse: separate;
+}
+.show-recordtable thead tr th {
+    text-align: center;
+    border-top: 1px solid black;
+    border-bottom: solid #ccc 1px;
+}
+.show-recordtable tbody #bf-col{
+    text-align: left;
+    background: rgba(3, 169, 244, 0.38);
+    font-weight: bold;
+
+}
+.show-recordtable tbody #lh-col {
+    text-align: left;
+    background: rgba(0, 188, 212, 0.33);
+    font-weight: bold;
+}
+.show-recordtable tbody #dn-col {
+    text-align: left;
+    background: rgba(63, 81, 181, 0.27);
+    font-weight: bold;
+}
+.show-recordtable tbody #sp-col {
+    text-align: left;
+    background: rgba(0, 150, 136, 0.22);
+    font-weight: bold;
+}
+.show-recordtable tbody tr:hover {
+    background-color: rgba(158, 158, 158, 0.12);
+}

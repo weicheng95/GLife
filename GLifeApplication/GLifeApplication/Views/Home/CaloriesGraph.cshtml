@@ -1,0 +1,116 @@
+﻿<canvas id="CaloriesConsumed"></canvas>
+
+<script>
+    var ctx = document.getElementById("CaloriesConsumed").getContext('2d');
+
+    var myChart = new Chart(ctx, {
+
+        type: 'bar',
+        data: {
+            labels:@Html.Raw(Json.Encode(ViewBag.Date)),
+            datasets: [{
+                label: '早餐',
+                data: @Json.Encode(ViewBag.BreakfastCalories),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: '午餐',
+                data: @Json.Encode(ViewBag.LunchCalories),
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+                },
+            {
+                label: '晚餐',
+                data: @Json.Encode(ViewBag.DinnerCalories),
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+                },
+            {
+                label: '運動',
+                data: @Json.Encode(ViewBag.SportCalories),
+                backgroundColor: [
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)',
+                    'rgba(80, 150, 90, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)',
+                    'rgba(80, 150, 90, 1)'
+                ],
+                borderWidth: 1
+                }]
+        },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+    });
+</script>
+

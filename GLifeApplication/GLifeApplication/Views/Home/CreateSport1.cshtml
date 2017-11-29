@@ -1,0 +1,123 @@
+﻿@model GLifeApplication.Models.SportRecord
+
+<style>
+    ul.ui-autocomplete {
+        z-index: 1100;
+    }
+</style>
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">新增運動記錄</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @using (Ajax.BeginForm("AddSport", "Home",
+new AjaxOptions
+{
+    HttpMethod = "POST"
+,
+    OnSuccess = "onRecordModalCreateSuccess"
+}, new { }))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Username, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @User.Identity.Name
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CreateDate, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control", @id = "DatepickerForCreate" })
+                            @Html.ValidationMessageFor(model => model.CreateDate, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SportType, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.SportType, new { @class = "form-control", @id = "txtSportType", @name = "SportType" })
+                            @Html.TextBoxFor(model => model.Sport_Id, new { @class = "form-control", @id = "hfSportId", @name = "SportId", @Type = "hidden" })
+                            @Html.ValidationMessageFor(model => model.SportType, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SportTime, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.SportTime, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SportTime, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input class="btn btn-primary" id="CreateSportBtn" type="Button" value="新增運動" />
+            <input class="btn btn-default" data-dismiss="modal" type="button" value="cancel" />
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //show da
+    $('#DatepickerForCreate').datepicker({
+        zIndexOffset: 1040
+    });
+
+    //autocomplete used jquery with ajax
+    $("#txtSportType").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '/Home/AutoCompleteForSport/',
+                data: "{ 'prefix': '" + request.term + "'}",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return item;
+                    }))
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        },
+
+        select: function (e, i) {
+            $("#hfSportId").val(i.item.val);
+        },
+
+        minLength: 1
+    });
+</script>
+
+
+

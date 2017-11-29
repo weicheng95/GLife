@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GLifeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="GLifeEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="TotalCaloriesCal">
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Username" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="SportRecord" EntityType="GLifeModel.SportRecord" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(GLifeModel.sp_helpdiagramdefinition_Result1)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(GLifeModel.sp_helpdiagrams_Result1)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Account" EntityType="GLifeModel.Account" />
+    <EntitySet Name="Article" EntityType="GLifeModel.Article" />
+    <EntitySet Name="FoodDatabase" EntityType="GLifeModel.FoodDatabase" />
+    <EntitySet Name="FoodRecord" EntityType="GLifeModel.FoodRecord" />
+    <EntitySet Name="SportDatabase" EntityType="GLifeModel.SportDatabase" />
+    <EntitySet Name="sysdiagrams" EntityType="GLifeModel.sysdiagrams" />
+    <EntitySet Name="test" EntityType="GLifeModel.test" />
+    <EntitySet Name="TotalCaloriesResult" EntityType="GLifeModel.TotalCaloriesResult" />
+    <AssociationSet Name="FK_Article_Account" Association="GLifeModel.FK_Article_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Record_Account" Association="GLifeModel.FK_Record_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SportRecord_Account" Association="GLifeModel.FK_SportRecord_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="SportRecord" EntitySet="SportRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalCaloriesResult_Account" Association="GLifeModel.FK_TotalCaloriesResult_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="TotalCaloriesResult" EntitySet="TotalCaloriesResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodRecord_FoodDatabase" Association="GLifeModel.FK_FoodRecord_FoodDatabase">
+      <End Role="FoodDatabase" EntitySet="FoodDatabase" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodRecord_test" Association="GLifeModel.FK_FoodRecord_test">
+      <End Role="test" EntitySet="test" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SportRecord_SportDatabase" Association="GLifeModel.FK_SportRecord_SportDatabase">
+      <End Role="SportDatabase" EntitySet="SportDatabase" />
+      <End Role="SportRecord" EntitySet="SportRecord" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="SportRecord">
+    <Key>
+      <PropertyRef Name="SportRecord_Id" />
+    </Key>
+    <Property Name="SportRecord_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SportType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="SportTime" Type="Int32" Nullable="false" />
+    <Property Name="BurnCalories" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Sport_Id" Type="Int32" Nullable="false" />
+    <Property Name="SportName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Account" Relationship="GLifeModel.FK_SportRecord_Account" FromRole="SportRecord" ToRole="Account" />
+    <NavigationProperty Name="SportDatabase" Relationship="GLifeModel.FK_SportRecord_SportDatabase" FromRole="SportRecord" ToRole="SportDatabase" />
+  </EntityType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result1">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result1">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Height" Type="Double" Nullable="false" />
+    <Property Name="Weight" Type="Double" Nullable="false" />
+    <Property Name="Gender" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" Nullable="false" />
+    <Property Name="WeightToLossPerWeek" Type="Double" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Activity" Type="Double" Nullable="false" />
+    <Property Name="CaloriesRequired" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Article" Relationship="GLifeModel.FK_Article_Account" FromRole="Account" ToRole="Article" />
+    <NavigationProperty Name="FoodRecord" Relationship="GLifeModel.FK_Record_Account" FromRole="Account" ToRole="FoodRecord" />
+    <NavigationProperty Name="SportRecord" Relationship="GLifeModel.FK_SportRecord_Account" FromRole="Account" ToRole="SportRecord" />
+    <NavigationProperty Name="TotalCaloriesResult" Relationship="GLifeModel.FK_TotalCaloriesResult_Account" FromRole="Account" ToRole="TotalCaloriesResult" />
+  </EntityType>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="Article_Id" />
+    </Key>
+    <Property Name="Article_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Watch" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Account" Relationship="GLifeModel.FK_Article_Account" FromRole="Article" ToRole="Account" />
+  </EntityType>
+  <EntityType Name="FoodDatabase">
+    <Key>
+      <PropertyRef Name="Food_Id" />
+    </Key>
+    <Property Name="FoodName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Barcode" Type="Int64" Nullable="false" />
+    <Property Name="Calories" Type="Int32" Nullable="false" />
+    <Property Name="Food_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FoodType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FoodRecord" Relationship="GLifeModel.FK_FoodRecord_FoodDatabase" FromRole="FoodDatabase" ToRole="FoodRecord" />
+  </EntityType>
+  <EntityType Name="FoodRecord">
+    <Key>
+      <PropertyRef Name="FoodRecord_Id" />
+    </Key>
+    <Property Name="FoodRecord_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Calories" Type="Int32" Nullable="false" />
+    <Property Name="FoodName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FoodAmount" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Food_Id" Type="Int32" Nullable="false" />
+    <Property Name="FoodType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FoodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Account" Relationship="GLifeModel.FK_Record_Account" FromRole="FoodRecord" ToRole="Account" />
+    <NavigationProperty Name="FoodDatabase" Relationship="GLifeModel.FK_FoodRecord_FoodDatabase" FromRole="FoodRecord" ToRole="FoodDatabase" />
+    <NavigationProperty Name="test" Relationship="GLifeModel.FK_FoodRecord_test" FromRole="FoodRecord" ToRole="test" />
+  </EntityType>
+  <EntityType Name="SportDatabase">
+    <Key>
+      <PropertyRef Name="Sport_Id" />
+    </Key>
+    <Property Name="SportType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Sport_Id" Type="Int32" Nullable="false" />
+    <Property Name="Calories" Type="Int32" Nullable="false" />
+    <Property Name="SportName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SportRecord" Relationship="GLifeModel.FK_SportRecord_SportDatabase" FromRole="SportDatabase" ToRole="SportRecord" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="test">
+    <Key>
+      <PropertyRef Name="Food_Id" />
+    </Key>
+    <Property Name="Food_Id" Type="Int32" Nullable="false" />
+    <Property Name="食品分類" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FoodName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Calories" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="水分_成分值_g_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="粗蛋白_成分值_g_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="粗脂肪_成分值_g_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="飽和脂肪_成分值_g_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="總碳水化合物_成分值_g_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="FoodRecord" Relationship="GLifeModel.FK_FoodRecord_test" FromRole="test" ToRole="FoodRecord" />
+  </EntityType>
+  <EntityType Name="TotalCaloriesResult">
+    <Key>
+      <PropertyRef Name="Calories_Id" />
+    </Key>
+    <Property Name="Calories_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BreakfastCalories" Type="Int32" Nullable="false" />
+    <Property Name="LunchCalories" Type="Int32" Nullable="false" />
+    <Property Name="DinnerCalories" Type="Int32" Nullable="false" />
+    <Property Name="OthersCalories" Type="Int32" Nullable="false" />
+    <Property Name="SportCalories" Type="Int32" Nullable="false" />
+    <Property Name="CaloriesResult" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Account" Relationship="GLifeModel.FK_TotalCaloriesResult_Account" FromRole="TotalCaloriesResult" ToRole="Account" />
+  </EntityType>
+  <Association Name="FK_Article_Account">
+    <End Type="GLifeModel.Account" Role="Account" Multiplicity="1" />
+    <End Type="GLifeModel.Article" Role="Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Record_Account">
+    <End Type="GLifeModel.Account" Role="Account" Multiplicity="1" />
+    <End Type="GLifeModel.FoodRecord" Role="FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SportRecord_Account">
+    <End Type="GLifeModel.Account" Role="Account" Multiplicity="1" />
+    <End Type="GLifeModel.SportRecord" Role="SportRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="SportRecord">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalCaloriesResult_Account">
+    <End Type="GLifeModel.Account" Role="Account" Multiplicity="1" />
+    <End Type="GLifeModel.TotalCaloriesResult" Role="TotalCaloriesResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="TotalCaloriesResult">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodRecord_FoodDatabase">
+    <End Type="GLifeModel.FoodDatabase" Role="FoodDatabase" Multiplicity="1" />
+    <End Type="GLifeModel.FoodRecord" Role="FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodDatabase">
+        <PropertyRef Name="Food_Id" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Food_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodRecord_test">
+    <End Type="GLifeModel.test" Role="test" Multiplicity="1" />
+    <End Type="GLifeModel.FoodRecord" Role="FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="test">
+        <PropertyRef Name="Food_Id" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Food_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SportRecord_SportDatabase">
+    <End Type="GLifeModel.SportDatabase" Role="SportDatabase" Multiplicity="1" />
+    <End Type="GLifeModel.SportRecord" Role="SportRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SportDatabase">
+        <PropertyRef Name="Sport_Id" />
+      </Principal>
+      <Dependent Role="SportRecord">
+        <PropertyRef Name="Sport_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

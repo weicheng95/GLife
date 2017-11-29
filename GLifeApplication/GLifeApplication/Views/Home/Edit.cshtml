@@ -1,0 +1,52 @@
+﻿@model GLifeApplication.Models.FoodRecord
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@Scripts.Render("~/jQuery/Home/Record.js")
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">Edit comments</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+                {
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FoodName, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.FoodName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FoodName, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FoodAmount, new
+                   {
+                       @class = "col-xs-4 form-label"
+                   })
+                        <div class="col-xs-8">
+                            @Html.TextBoxFor(model => model.FoodAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FoodAmount, null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input class="btn btn-primary" id="editBtn" type="Button" value="Edit comments" />
+            <input class="btn btn-default" data-dismiss="modal" type="button" value="cancel" />
+        </div>
+    </div>
+</div>
+

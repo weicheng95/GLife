@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人健康助手</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*very important scripts, for jquery event*@
+    @Scripts.Render("~/bundles/jquery")
+    @*very important scripts, for jquery UIt*@
+    @Scripts.Render("~/bundles/jquery-ui")
+    @*very important scripts, for jquery UI themes*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    <link rel="stylesheet" href="~/css/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="~/css/device-mockups/device-mockups.min.css">
+    <!-- Custom styles for this template -->
+    <link href="~/css/new-age.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../css/venobox/venobox.min.js"></script>
+    <link rel="stylesheet" href="../css/venobox/venobox.css" type="text/css" media="screen" />
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("GLife", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("主頁", "Index", "Home")</li>
+                    <li>@Html.ActionLink("記錄", "Record", "Home")</li>
+                    <li>@Html.ActionLink("個人分析", "Analysis", "Home")</li>
+                    @*<li>@Html.ActionLink("文章", "Index", "Article")</li>*@
+                    <li>@Html.ActionLink("影片", "Index", "Video")</li>
+                </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a>@User.Identity.Name</a></li>
+                        <li>@Html.ActionLink("設定", "Setting", "Member", new { }, new { @class = "glyphicon glyphicon-cog" })</li>
+                        <li>@Html.ActionLink("登出", "Logout", "Member", new { }, new { @class = "glyphicon glyphicon-log-out" })</li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("登入", "Login", "Member", new { }, new {@class= "glyphicon glyphicon-log-in" })</li>
+                        <li>@Html.ActionLink("註冊", "Register", "Member", new { }, new { @class = "glyphicon glyphicon-user" })</li>
+                    </ul>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="padding:0;">
+        @RenderBody()
+        <footer>
+            <div class="container">
+                <p>&copy; 2017 Developed By Wei Cheng.</p>            
+            </div>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap") 
+    @RenderSection("scripts", required: false)
+</body>
+</html>

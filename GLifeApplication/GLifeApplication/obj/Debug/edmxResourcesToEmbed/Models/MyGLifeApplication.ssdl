@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GLifeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Height" Type="float" Nullable="false" />
+    <Property Name="Weight" Type="float" Nullable="false" />
+    <Property Name="Gender" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="WeightToLossPerWeek" Type="float" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Activity" Type="float" Nullable="false" />
+    <Property Name="CaloriesRequired" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="Article_Id" />
+    </Key>
+    <Property Name="Article_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Content" Type="varchar(max)" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="Watch" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FoodDatabase">
+    <Key>
+      <PropertyRef Name="Food_Id" />
+    </Key>
+    <Property Name="FoodName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Barcode" Type="bigint" Nullable="false" />
+    <Property Name="Calories" Type="int" Nullable="false" />
+    <Property Name="Food_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodType" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="FoodRecord">
+    <Key>
+      <PropertyRef Name="FoodRecord_Id" />
+    </Key>
+    <Property Name="FoodRecord_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Calories" Type="int" Nullable="false" />
+    <Property Name="FoodName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FoodAmount" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Food_Id" Type="int" Nullable="false" />
+    <Property Name="FoodType" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="FoodGroup" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="SportDatabase">
+    <Key>
+      <PropertyRef Name="Sport_Id" />
+    </Key>
+    <Property Name="SportType" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Sport_Id" Type="int" Nullable="false" />
+    <Property Name="Calories" Type="int" Nullable="false" />
+    <Property Name="SportName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SportRecord">
+    <Key>
+      <PropertyRef Name="SportRecord_Id" />
+    </Key>
+    <Property Name="SportRecord_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SportName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SportTime" Type="int" Nullable="false" />
+    <Property Name="BurnCalories" Type="int" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="Sport_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="test">
+    <Key>
+      <PropertyRef Name="Food_Id" />
+    </Key>
+    <Property Name="Food_Id" Type="int" Nullable="false" />
+    <Property Name="食品分類" Type="varchar" MaxLength="50" />
+    <Property Name="FoodName" Type="varchar" MaxLength="50" />
+    <Property Name="Calories" Type="varchar" MaxLength="50" />
+    <Property Name="水分-成分值(g)" Type="varchar" MaxLength="50" />
+    <Property Name="粗蛋白-成分值(g)" Type="varchar" MaxLength="50" />
+    <Property Name="粗脂肪-成分值(g)" Type="varchar" MaxLength="50" />
+    <Property Name="飽和脂肪-成分值(g)" Type="varchar" MaxLength="50" />
+    <Property Name="總碳水化合物-成分值(g)" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TotalCaloriesResult">
+    <Key>
+      <PropertyRef Name="Calories_Id" />
+    </Key>
+    <Property Name="Calories_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BreakfastCalories" Type="int" Nullable="false" />
+    <Property Name="LunchCalories" Type="int" Nullable="false" />
+    <Property Name="DinnerCalories" Type="int" Nullable="false" />
+    <Property Name="OthersCalories" Type="int" Nullable="false" />
+    <Property Name="SportCalories" Type="int" Nullable="false" />
+    <Property Name="CaloriesResult" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="date" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Article_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Article" Type="Self.Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodRecord_FoodDatabase">
+    <End Role="FoodDatabase" Type="Self.FoodDatabase" Multiplicity="1" />
+    <End Role="FoodRecord" Type="Self.FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodDatabase">
+        <PropertyRef Name="Food_Id" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Food_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodRecord_test">
+    <End Role="test" Type="Self.test" Multiplicity="1" />
+    <End Role="FoodRecord" Type="Self.FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="test">
+        <PropertyRef Name="Food_Id" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Food_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Record_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="FoodRecord" Type="Self.FoodRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="FoodRecord">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SportRecord_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="SportRecord" Type="Self.SportRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="SportRecord">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SportRecord_SportDatabase">
+    <End Role="SportDatabase" Type="Self.SportDatabase" Multiplicity="1" />
+    <End Role="SportRecord" Type="Self.SportRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SportDatabase">
+        <PropertyRef Name="Sport_Id" />
+      </Principal>
+      <Dependent Role="SportRecord">
+        <PropertyRef Name="Sport_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalCaloriesResult_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="TotalCaloriesResult" Type="Self.TotalCaloriesResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="TotalCaloriesResult">
+        <PropertyRef Name="Username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TotalCaloriesCal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CreateDate" Type="datetime" Mode="In" />
+    <Parameter Name="Username" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="GLifeModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodDatabase" EntityType="Self.FoodDatabase" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodRecord" EntityType="Self.FoodRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SportDatabase" EntityType="Self.SportDatabase" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SportRecord" EntityType="Self.SportRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="test" EntityType="Self.test" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TotalCaloriesResult" EntityType="Self.TotalCaloriesResult" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Article_Account" Association="Self.FK_Article_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Article" EntitySet="Article" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodRecord_FoodDatabase" Association="Self.FK_FoodRecord_FoodDatabase">
+      <End Role="FoodDatabase" EntitySet="FoodDatabase" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodRecord_test" Association="Self.FK_FoodRecord_test">
+      <End Role="test" EntitySet="test" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Record_Account" Association="Self.FK_Record_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="FoodRecord" EntitySet="FoodRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SportRecord_Account" Association="Self.FK_SportRecord_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="SportRecord" EntitySet="SportRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SportRecord_SportDatabase" Association="Self.FK_SportRecord_SportDatabase">
+      <End Role="SportDatabase" EntitySet="SportDatabase" />
+      <End Role="SportRecord" EntitySet="SportRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalCaloriesResult_Account" Association="Self.FK_TotalCaloriesResult_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="TotalCaloriesResult" EntitySet="TotalCaloriesResult" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

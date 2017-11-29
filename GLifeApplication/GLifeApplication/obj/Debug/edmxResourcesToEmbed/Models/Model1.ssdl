@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GLifeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Account" />
+    </Key>
+    <Property Name="Account" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Email" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Height" Type="int" Nullable="false" />
+    <Property Name="Weight" Type="int" Nullable="false" />
+    <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="Target" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Barcode">
+    <Key>
+      <PropertyRef Name="ProductName" />
+    </Key>
+    <Property Name="ProductName" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Barcode" Type="int" Nullable="false" />
+    <Property Name="Calories" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Record">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Account" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Calories" Type="int" Nullable="false" />
+    <Property Name="ProductName" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GLife.dbo.TotalCaloriesResult' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TotalCaloriesResult">
+    <Key>
+      <PropertyRef Name="TotalCalories" />
+      <PropertyRef Name="CreateDate" />
+      <PropertyRef Name="Account" />
+    </Key>
+    <Property Name="TotalCalories" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="Account" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Record_Account1">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Account" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="Account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Record_Barcode">
+    <End Role="Barcode" Type="Self.Barcode" Multiplicity="1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Barcode">
+        <PropertyRef Name="ProductName" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="ProductName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalCaloriesResult_Account1">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="TotalCaloriesResult" Type="Self.TotalCaloriesResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Account" />
+      </Principal>
+      <Dependent Role="TotalCaloriesResult">
+        <PropertyRef Name="Account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GLifeModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Barcode" EntityType="Self.Barcode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Record" EntityType="Self.Record" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TotalCaloriesResult" EntityType="Self.TotalCaloriesResult" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TotalCaloriesResult].[TotalCalories] AS [TotalCalories], 
+    [TotalCaloriesResult].[CreateDate] AS [CreateDate], 
+    [TotalCaloriesResult].[Account] AS [Account]
+    FROM [dbo].[TotalCaloriesResult] AS [TotalCaloriesResult]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Record_Account1" Association="Self.FK_Record_Account1">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Record" EntitySet="Record" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Record_Barcode" Association="Self.FK_Record_Barcode">
+      <End Role="Barcode" EntitySet="Barcode" />
+      <End Role="Record" EntitySet="Record" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalCaloriesResult_Account1" Association="Self.FK_TotalCaloriesResult_Account1">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="TotalCaloriesResult" EntitySet="TotalCaloriesResult" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
